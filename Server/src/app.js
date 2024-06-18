@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
+import cors from "cors";
 
 // rest object
 const app = express();
@@ -9,6 +10,12 @@ const app = express();
 dotenv.config();
 
 //middleware
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CORS_ORIGIN,
+  })
+);
 app.use(express.json()); // we can use json in req and res
 app.use(morgan("dev"));
 
