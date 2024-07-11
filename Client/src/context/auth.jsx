@@ -10,10 +10,10 @@ const AuthProvider = ({ children }) => {
     user: null,
     token: "",
   });
-
   //default axios
   axios.defaults.headers.common["Authorization"] = auth?.token;
 
+  // Set axios default authorization header when auth.token changes
   useEffect(() => {
     const data = localStorage.getItem("auth");
 
@@ -33,7 +33,6 @@ const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-
 const useAuth = () => useContext(AuthContext);
 
 export { useAuth, AuthProvider };

@@ -28,8 +28,12 @@ app.get("/", (req, res) => {
 
 //routes import
 import userRoutes from "./routes/user.routes.js";
+import categoryRoutes from "./routes/category.routes.js";
+import productRoutes from "./routes/product.routes.js";
 
 //routes
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/category", categoryRoutes);
+app.use("/api/v1/category", productRoutes);
 
 export default app;

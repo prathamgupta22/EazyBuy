@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Layout from "./../../components/Layout/Layout";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/auth";
 
@@ -11,6 +11,7 @@ const Login = () => {
   const [auth, setAuth] = useAuth();
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   // form function
   const handleSubmit = async (e) => {
@@ -28,7 +29,7 @@ const Login = () => {
           token: res.data.token,
         });
         localStorage.setItem("auth", JSON.stringify(res.data));
-        navigate("/");
+        navigate(location.state || "/");
       } else {
         toast.error(res.data.message);
       }
@@ -67,6 +68,18 @@ const Login = () => {
               required
             />
           </div>
+          <div className="mb-3">
+            <button
+              type="button"
+              onClick={() => {
+                navigate("/forgot-password");
+              }}
+              className="w-full border border-black rounded-none bg-black text-white py-2 mt-4 hover:bg-gradient-to-r from-[#434343] to-[#000000]"
+            >
+              Forgot Password
+            </button>
+          </div>
+
           <button
             type="submit"
             className="w-full border border-black rounded-none bg-black text-white py-2 mt-4 hover:bg-gradient-to-r from-[#434343] to-[#000000]"

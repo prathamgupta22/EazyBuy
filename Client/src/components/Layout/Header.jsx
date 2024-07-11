@@ -3,6 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import { GiShoppingBag } from "react-icons/gi";
 import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
+import { Dropdown } from "flowbite-react";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
@@ -85,15 +86,29 @@ const Header = () => {
               </NavLink>
             </>
           ) : (
-            <>
-              <NavLink
-                onClick={handleLogout}
-                to="/login"
-                className="text-gray-300 hover:text-yellow-200 hover:border-b hover:border-yellow-200"
-              >
-                Logout
-              </NavLink>
-            </>
+            <Dropdown
+              label="User"
+              dismissOnClick={false}
+              className="bg-gray-800 text-white"
+            >
+              <Dropdown.Item>
+                <NavLink
+                  to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}
+                  className="px-4 py-2  text-gray-300  hover:text-gray-900"
+                >
+                  Dashboard
+                </NavLink>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <NavLink
+                  onClick={handleLogout}
+                  to="/login"
+                  className=" px-4 py-2  text-gray-300  hover:text-gray-900"
+                >
+                  Logout
+                </NavLink>
+              </Dropdown.Item>
+            </Dropdown>
           )}
 
           <NavLink
