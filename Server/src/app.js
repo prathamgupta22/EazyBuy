@@ -34,6 +34,6 @@ import productRoutes from "./routes/product.routes.js";
 //routes
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/category", categoryRoutes);
-app.use("/api/v1/category", productRoutes);
+app.use("/api/v1/product", productRoutes);
 
 export default app;

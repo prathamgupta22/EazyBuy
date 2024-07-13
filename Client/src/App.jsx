@@ -16,6 +16,8 @@ import CreateProduct from "./pages/Admin/CreateProduct";
 import Order from "./pages/user/Order";
 import Profile from "./pages/user/Profile";
 import Users from "./pages/Admin/Users";
+import Products from "./pages/Admin/Products";
+import UpdateProduct from "./pages/Admin/UpdateProduct";
 
 const App = () => {
   return (
@@ -31,6 +33,8 @@ const App = () => {
           <Route path="admin" element={<AdminDashboard />} />
           <Route path="admin/create-category" element={<CreateCategory />} />
           <Route path="admin/create-product" element={<CreateProduct />} />
+          <Route path="admin/product/:slug" element={<UpdateProduct />} />
+          <Route path="admin/products" element={<Products />} />
           <Route path="admin/users" element={<Users />} />
         </Route>
         <Route path="/register" element={<Register />} />
