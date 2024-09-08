@@ -50,6 +50,7 @@ const Login = () => {
             <input
               type="email"
               value={email}
+              autoFocus
               onChange={(e) => setEmail(e.target.value)}
               className="form-control w-full border-0 border-b border-black rounded-none"
               id="exampleInputEmail1"

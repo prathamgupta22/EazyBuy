@@ -3,6 +3,9 @@ import Layout from "./../components/Layout/Layout";
 import axios from "axios";
 import { Checkbox, Radio } from "antd";
 import { Prices } from "../components/Prices";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../context/cart";
+import toast from "react-hot-toast";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -12,6 +15,10 @@ const HomePage = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  const [cart, setCart] = useCart();
+
+  const navigate = useNavigate();
 
   // Fetch all categories
   const getAllCategory = async () => {
@@ -154,10 +161,23 @@ const HomePage = () => {
                     {p.description.substring(0, 30)}...
                   </p>
                   <p className="text-gray-900 font-bold mb-4">$ {p.price}</p>
-                  <button className="btn bg-blue-500 text-white py-2 px-4 rounded mr-2">
+                  <button
+                    onClick={() => navigate(`/product/${p.slug}`)}
+                    className="bg-blue-500 text-white py-3 px-6 rounded shadow-md hover:bg-blue-600 transition-all duration-300 w-full text-center"
+                  >
                     More Details
                   </button>
-                  <button className="btn bg-gray-500 text-white py-2 px-4 rounded">
+                  <button
+                    className="bg-yellow-400 text-white py-3 px-6 rounded shadow-md hover:bg-yellow-500 transition-all duration-300 w-full text-center"
+                    onClick={() => {
+                      setCart([...cart, p]);
+                      localStorage.setItem(
+                        "cart",
+                        JSON.stringify([...cart, p])
+                      );
+                      toast.success("Item added to cart");
+                    }}
+                  >
                     ADD TO CART
                   </button>
                 </div>
