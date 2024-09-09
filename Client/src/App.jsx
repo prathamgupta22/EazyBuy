@@ -23,12 +23,17 @@ import ProductDetails from "./pages/ProductDetails";
 import Categories from "./pages/Categories";
 import CategoryProduct from "./pages/CategoryProduct";
 import CartPage from "./pages/CartPage";
+import AdminOrders from "./pages/Admin/AdminOrder";
+import Cancel from "./pages/Cancel";
+import Success from "./pages/Success";
 
 const App = () => {
   return (
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/success" element={<Success />} />
+        <Route path="/cancel" element={<Cancel />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/category/:slug" element={<CategoryProduct />} />
         <Route path="/categories" element={<Categories />} />
@@ -46,6 +51,7 @@ const App = () => {
           <Route path="admin/product/:slug" element={<UpdateProduct />} />
           <Route path="admin/products" element={<Products />} />
           <Route path="admin/users" element={<Users />} />
+          <Route path="admin/orders" element={<AdminOrders />} />
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />

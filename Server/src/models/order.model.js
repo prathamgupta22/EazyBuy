@@ -8,22 +8,20 @@ const orderSchema = new mongoose.Schema(
         ref: "Product",
       },
     ],
-    payments: {},
+    payments: {}, // Payment details can be captured here
     buyer: {
       type: mongoose.ObjectId,
       ref: "User",
     },
     status: {
       type: String,
-      default: "Not Process",
+      default: "Not Processed",
       enum: [
-        "Not Process",
+        "Not Processed",
         "Processing",
         "Shipped",
-        "Dispatched",
-        "Out for Delivery",
         "Delivered",
-        "Cancel",
+        "Cancelled",
       ],
     },
   },

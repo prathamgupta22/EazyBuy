@@ -15,8 +15,13 @@ import {
 } from "../controllers/product.controller.js";
 import formidable from "express-formidable";
 import { isAdmin, requireSignIn } from "../middlewares/user.middleware.js";
+import Stripe from "stripe";
+
+const key =
+  "sk_test_51Pl85d2M0LYmn6s9ohO3x618qmYyhR8qqhKvMDABKWgQrcFKAPrelXqQ2Tl48mkzXAGkOXGpU9V0M3rCZDfoOktN00YWvrB5dQ";
 
 const router = express.Router();
+const stripe = new Stripe(key);
 
 //routes
 router.post(
@@ -65,5 +70,65 @@ router.get("/related-product/:pid/:cid", relatedProductController);
 
 //category wise product
 router.get("/product-category/:slug", productCategoryController);
+
+// Payment route using Stripe
+router.post("/payments", async (req, res) => {
+  try {
+    const { products } = req.body;
+
+    if (!products || products.length === 0) {
+      return res.status(400).json({ error: "No products provided" });
+    }
+
+    // Log products data for debugging
+    console.log("Received products:", products);
+
+    const lineItems = products.map((product) => {
+      const unitAmount = Math.round(product.price * 100); // Convert dollars to cents
+
+      // Log unit amount and quantity
+      console.log(
+        `Product: ${product.name}, Unit Amount: ${unitAmount}, Quantity: ${product.quantity}`
+      );
+
+      if (unitAmount < 100) {
+        throw new Error(
+          `Product ${product.name} has a unit amount less than 1 cent.`
+        );
+      }
+      if (product.quantity < 1) {
+        throw new Error(`Product ${product.name} has a quantity less than 1.`);
+      }
+
+      return {
+        price_data: {
+          currency: "usd",
+          product_data: {
+            name: product.name,
+            images: [product.image],
+          },
+          unit_amount: unitAmount,
+        },
+        quantity: product.quantity,
+      };
+    });
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      line_items: lineItems,
+      mode: "payment",
+      success_url: "http://localhost:5173/success",
+      cancel_url: "http://localhost:5173/cancel",
+    });
+
+    res.json({ id: session.id });
+  } catch (error) {
+    console.error("Stripe session creation error:", error);
+    res.status(500).json({
+      error: "Failed to create Stripe session",
+      details: error.message,
+    });
+  }
+});
 
 export default router;
