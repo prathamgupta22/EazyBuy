@@ -5,39 +5,39 @@ import cors from "cors";
 import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
 
-// rest object
+// Initialize Express app
 const app = express();
 
 // Configure dotenv
 dotenv.config();
 
-//middleware
+// Middleware
 app.use(helmet());
 app.use(mongoSanitize());
 app.use(
   cors({
     credentials: true,
-    origin: process.env.CORS_ORIGIN,
+    origin: "*", // Allow all origins
   })
 );
-app.use(express.json()); // we can use json in req and res
-app.use(morgan("dev"));
+app.use(express.json()); // Enable JSON parsing
+app.use(morgan("dev")); // HTTP request logging
 
-//rest api
+// Basic route
 app.get("/", (req, res) => {
   res.send({
-    message: "Welcone to Eazy Buy",
+    message: "Welcome to Eazy Buy",
   });
 });
 
-//routes import
+// Import and use routes
 import userRoutes from "./routes/user.routes.js";
 import categoryRoutes from "./routes/category.routes.js";
 import productRoutes from "./routes/product.routes.js";
 
-//routes
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product", productRoutes);
 
+// Export app
 export default app;
