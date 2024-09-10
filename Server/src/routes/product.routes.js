@@ -50,26 +50,18 @@ router.get("/get-product/:slug", getSingleProductController);
 // get photo
 // router.get("/product-photo/:pid", productPhotoController);
 // Image endpoint
-app.get("/product-photo/:pid", async (req, res) => {
+router.get("/product-photo/:pid", async (req, res) => {
   try {
     const product = await Product.findById(req.params.pid).select("photo");
-    if (!product) {
-      console.error(`Product with ID ${req.params.pid} not found`);
-      return res.status(404).send({
-        success: false,
-        message: "Product not found",
-      });
-    }
-    if (product.photo && product.photo.data) {
-      res.set("Content-Type", product.photo.contentType);
-      return res.status(200).send(product.photo.data);
-    } else {
-      console.error(`Photo for Product with ID ${req.params.pid} not found`);
+    if (!product || !product.photo || !product.photo.data) {
       return res.status(404).send({
         success: false,
         message: "Photo not found",
       });
     }
+
+    res.set("Content-Type", product.photo.contentType);
+    return res.status(200).send(product.photo.data);
   } catch (error) {
     console.error("Error retrieving photo:", error);
     res.status(500).send({
