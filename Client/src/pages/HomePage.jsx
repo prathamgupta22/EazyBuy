@@ -151,7 +151,7 @@ const HomePage = () => {
                 className="m-2 w-72 bg-white rounded-sm shadow-md hover:shadow-2xl transition-all duration-500 ease-in-out transform hover:scale-110 overflow-hidden"
               >
                 <img
-                  src={`https://eazybuy-1.onrender.com/api/v1/product/product-photo/${p._id}`}
+                  src={`/api/v1/product/product-photo/${p._id}`}
                   className="w-full h-48 object-contain hover:scale-105 transition-all ease-in-out"
                   alt={p.name}
                 />

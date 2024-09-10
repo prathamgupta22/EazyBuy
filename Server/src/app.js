@@ -14,7 +14,12 @@ dotenv.config();
 //middleware
 app.use(helmet());
 app.use(mongoSanitize());
-app.use(cors({}));
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CORS_ORIGIN,
+  })
+);
 app.use(express.json()); // we can use json in req and res
 app.use(morgan("dev"));
 
