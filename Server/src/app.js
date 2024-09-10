@@ -17,7 +17,7 @@ app.use(mongoSanitize());
 app.use(
   cors({
     credentials: true,
-    origin: "*", // Allow all origins
+    origin: "http://localhost:5173", // Replace with your frontend origin
   })
 );
 app.use(express.json()); // Enable JSON parsing
