@@ -23,7 +23,7 @@ const SearchInput = () => {
     <>
       <form className="flex" role="search" onSubmit={handleSubmit}>
         <input
-          className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="border-2 border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           type="search"
           placeholder="Search"
           aria-label="Search"
@@ -31,7 +31,7 @@ const SearchInput = () => {
           onChange={(e) => setValues({ ...values, keyword: e.target.value })}
         />
         <button
-          className="ml-2 border border-green-500 text-green-500 hover:bg-green-500 hover:text-white rounded px-4 py-2 transition-colors duration-300"
+          className="ml-2 border-2 bg-blue-500 text-white font-extrabold hover:bg-blue-600 green-500 hover:text-white rounded px-4 py-2 transition-colors duration-300"
           type="submit"
         >
           Search

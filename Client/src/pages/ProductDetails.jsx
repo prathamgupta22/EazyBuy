@@ -8,11 +8,10 @@ const ProductDetails = () => {
   const [product, setProduct] = useState({});
   const [relatedProduct, setRelatedProduct] = useState([]);
 
-  //inital p details
   useEffect(() => {
     if (params?.slug) getProduct();
   }, [params?.slug]);
-  //get product
+
   const getProduct = async () => {
     try {
       const { data } = await axios.get(
@@ -25,7 +24,6 @@ const ProductDetails = () => {
     }
   };
 
-  //get similar product
   const getSimilarProduct = async (pid, cid) => {
     try {
       const { data } = await axios.get(
@@ -36,87 +34,65 @@ const ProductDetails = () => {
       console.log(error);
     }
   };
+
   return (
     <Layout>
-      <div className="container mx-auto mt-4">
+      <div className="container mx-auto mt-8 p-4 md:p-8">
         <div className="flex flex-col md:flex-row items-center md:items-start">
           <div className="md:w-1/3 mb-4 md:mb-0 flex justify-center">
             <img
               src={`/api/v1/product/product-photo/${product._id}`}
-              className="w-full max-w-[400px] h-auto object-cover"
+              className="w-full max-w-md h-auto object-cover rounded-lg shadow-md"
               alt={product.name}
             />
           </div>
           <div className="md:w-2/3 text-center md:text-left md:ml-8">
-            <h1 className="text-2xl font-bold mb-4">Product Details</h1>
-            <h4 className="text-lg font-medium mb-2">Name: {product.name}</h4>
-            <h4 className="text-lg font-medium mb-2">
-              Description: {product.description}
-            </h4>
-            <h4 className="text-lg font-medium mb-2">Price: {product.price}</h4>
-            <h4 className="text-lg font-medium mb-2">
-              Category: {product?.category?.name}
-            </h4>
-            <button
-              style={{
-                backgroundColor: "#6c757d",
-                color: "white",
-                padding: "8px 16px",
-                borderRadius: "4px",
-                textAlign: "center",
-                width: "46%",
-                boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                display: "inline-block",
-              }}
-            >
+            <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
+            <p className="text-lg mb-2">{product.description}</p>
+            <p className="text-lg font-semibold mb-2">
+              Price: ${product.price}
+            </p>
+            <p className="text-lg mb-4">Category: {product?.category?.name}</p>
+            <button className="bg-blue-600 text-white py-2 px-6 rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
               ADD TO CART
             </button>
           </div>
         </div>
-        <hr />
-        <div className="mt-6">
-          <h1 className="text-xl font-bold">Similar Products</h1>
-          {relatedProduct.length < 1 && (
-            <p className="text-lg font-medium text-center text-gray-600 bg-gray-100 p-4 rounded-md shadow-md">
+        <hr className="my-6" />
+        <div>
+          <h2 className="text-2xl font-bold mb-4">Similar Products</h2>
+          {relatedProduct.length === 0 ? (
+            <p className="text-lg text-center text-gray-600 bg-gray-100 p-4 rounded-lg shadow-md">
               No similar products found
             </p>
-          )}
-          <div className="flex flex-wrap justify-center">
-            {relatedProduct?.map((p) => (
-              <div
-                key={p._id}
-                className="card m-2 w-72 bg-white rounded-lg shadow-lg overflow-hidden"
-              >
-                <img
-                  src={`/api/v1/product/product-photo/${p._id}`}
-                  className="w-full h-48 object-cover"
-                  alt={p.name}
-                />
-                <div className="p-4">
-                  <h5 className="font-bold text-lg mb-2">{p.name}</h5>
-                  <p className="text-gray-700 mb-2">
-                    {p.description.substring(0, 30)}...
-                  </p>
-                  <p className="text-gray-900 font-bold mb-4">$ {p.price}</p>
-
-                  <button
-                    style={{
-                      backgroundColor: "#6c757d", // Bootstrap Secondary Gray
-                      color: "white",
-                      padding: "8px 16px",
-                      borderRadius: "4px",
-                      textAlign: "center",
-                      width: "46%", // Adjust the width to fit side by side with a small gap
-                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)", // Add a subtle shadow for depth
-                      display: "inline-block", // Ensure buttons are inline
-                    }}
-                  >
-                    ADD TO CART
-                  </button>
+          ) : (
+            <div className="flex flex-wrap justify-center gap-4">
+              {relatedProduct.map((p) => (
+                <div
+                  key={p._id}
+                  className="card w-full sm:w-80 bg-white rounded-lg shadow-lg overflow-hidden"
+                >
+                  <img
+                    src={`/api/v1/product/product-photo/${p._id}`}
+                    className="w-full h-48 object-cover rounded-t-lg"
+                    alt={p.name}
+                  />
+                  <div className="p-4">
+                    <h5 className="text-xl font-semibold mb-2">{p.name}</h5>
+                    <p className="text-gray-700 mb-2">
+                      {p.description.length > 30
+                        ? `${p.description.substring(0, 30)}...`
+                        : p.description}
+                    </p>
+                    <p className="text-gray-900 font-bold mb-4">$ {p.price}</p>
+                    <button className="bg-blue-600 text-white py-2 px-4 rounded-lg shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                      ADD TO CART
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </Layout>

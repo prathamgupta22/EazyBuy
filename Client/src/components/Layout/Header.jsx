@@ -13,6 +13,7 @@ const Header = () => {
   const [auth, setAuth] = useAuth();
   const [cart] = useCart();
   const categories = useCategory();
+
   const handleLogout = () => {
     setAuth({
       ...auth,
@@ -22,21 +23,32 @@ const Header = () => {
     localStorage.removeItem("auth");
     toast.success("Logout Successfully");
   };
+
+  const toggleMobileMenu = () => {
+    const navMenu = document.getElementById("mobile-menu");
+    navMenu.classList.toggle("hidden");
+  };
+
   return (
-    <nav className="bg-gray-900 p-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="flex items-center">
+    <nav className="bg-white shadow-md">
+      <div className="container mx-auto flex justify-between items-center p-4">
+        {/* Logo and Mobile Menu Button */}
+        <div className="flex items-center justify-between w-full md:w-auto">
+          <Link
+            to="/"
+            className="text-2xl font-bold flex items-center hover:text-blue-600"
+          >
+            <span className="font-extrabold text-blue-600">🛒</span>
+            <span className="font-extrabold text-gray-800">Eazy</span>
+            <span className="font-extrabold text-red-600">Buy</span>
+          </Link>
           <button
-            className="text-gray-300 md:hidden"
+            className="text-gray-600 md:hidden"
             type="button"
-            aria-controls="navbarTogglerDemo01"
+            aria-controls="mobile-menu"
             aria-expanded="false"
             aria-label="Toggle navigation"
-            onClick={() =>
-              document
-                .getElementById("navbarTogglerDemo01")
-                .classList.toggle("hidden")
-            }
+            onClick={toggleMobileMenu}
           >
             <svg
               className="w-6 h-6"
@@ -53,74 +65,70 @@ const Header = () => {
               />
             </svg>
           </button>
-          <Link
-            to="/"
-            className="text-2xl font-bold text-gray-300 flex items-center ml-4 hover:text-yellow-200 hover:border-b hover:border-yellow-200"
-          >
-            🛒 Ecommerce App
-          </Link>
         </div>
-        <div
-          className="hidden md:flex items-center space-x-4"
-          id="navbarTogglerDemo01"
-        >
+
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center space-x-6">
           <SearchInput />
           <NavLink
             to="/"
-            className="text-gray-300 hover:text-yellow-200 hover:border-b hover:border-yellow-200"
+            className="text-gray-800 font-semibold hover:text-blue-600 hover:border-b-2 border-blue-600"
           >
             Home
           </NavLink>
           <Dropdown
-            label="Categories"
+            label={
+              <span className="text-black font-bold pl-5">Categories</span>
+            }
             dismissOnClick={false}
-            className="bg-gray-800 text-white"
+            className="text-black font-semibold"
           >
             <Dropdown.Item>
               <Link
                 to={"/categories"}
-                className="block px-4 py-2 text-gray-300 hover:text-gray-900"
+                className="px-4 py-2 text-black font-semibold hover:text-white"
               >
                 All Categories
               </Link>
             </Dropdown.Item>
-
             {categories?.map((c) => (
               <Dropdown.Item key={c._id}>
                 <Link
                   to={`/category/${c.slug}`}
-                  className="block px-4 py-2 text-gray-300 hover:text-gray-900"
+                  className="px-4 py-2 text-black font-semibold"
                 >
                   {c.name}
                 </Link>
               </Dropdown.Item>
             ))}
           </Dropdown>
+
+          {/* Authentication Links */}
           {!auth.user ? (
             <>
               <NavLink
                 to="/register"
-                className="text-gray-300 hover:text-yellow-200 hover:border-b hover:border-yellow-200"
+                className="text-gray-800 font-semibold hover:text-blue-600 hover:border-b-2 border-blue-600"
               >
                 Register
               </NavLink>
               <NavLink
                 to="/login"
-                className="text-gray-300 hover:text-yellow-200 hover:border-b hover:border-yellow-200"
+                className="text-gray-800 font-semibold hover:text-blue-600 hover:border-b-2 border-blue-600"
               >
                 Login
               </NavLink>
             </>
           ) : (
             <Dropdown
-              label="User"
+              label={<span className="text-black font-bold  pl-4">User</span>}
               dismissOnClick={false}
-              className="bg-gray-800 text-white"
+              className=""
             >
               <Dropdown.Item>
                 <NavLink
                   to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}
-                  className="px-4 py-2  text-gray-300  hover:text-gray-900"
+                  className="px-4 py-2 text-black font-semibold"
                 >
                   Dashboard
                 </NavLink>
@@ -129,28 +137,30 @@ const Header = () => {
                 <NavLink
                   onClick={handleLogout}
                   to="/login"
-                  className=" px-4 py-2  text-gray-300  hover:text-gray-900"
+                  className="px-4 py-2 text-black font-semibold"
                 >
                   Logout
                 </NavLink>
               </Dropdown.Item>
             </Dropdown>
           )}
+
+          {/* Cart Badge */}
           <Badge
             size="small"
             count={cart?.length}
             className="relative"
             style={{
-              backgroundColor: "#ff4d4f", // Example color, adjust as needed
+              backgroundColor: "#ff4d4f",
               color: "#fff",
-              fontSize: "0.75rem", // Adjust font size as needed
+              fontSize: "0.75rem",
             }}
           >
             <NavLink
               to="/cart"
-              className="flex items-center text-gray-300 hover:text-yellow-200 hover:border-b hover:border-yellow-200"
+              className="flex items-center text-gray-800 font-semibold hover:text-blue-600"
               style={{
-                fontSize: "1rem", // Adjust font size of the cart text
+                fontSize: "1rem",
                 display: "flex",
                 alignItems: "center",
               }}
@@ -160,37 +170,98 @@ const Header = () => {
           </Badge>
         </div>
       </div>
+
+      {/* Mobile Menu */}
       <div className="md:hidden">
-        <ul
-          className="flex flex-col space-y-2 mt-2 hidden"
-          id="navbarTogglerDemo01"
-        >
-          <li className="nav-item">
-            <NavLink to="/" className="text-gray-300 hover:text-white">
+        <ul className="flex flex-col space-y-2 mt-2 hidden" id="mobile-menu">
+          <li>
+            <SearchInput />
+          </li>
+          <li>
+            <NavLink
+              to="/"
+              className="text-gray-800 font-semibold hover:text-blue-600"
+              onClick={toggleMobileMenu}
+            >
               Home
             </NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink to="/category" className="text-gray-300 hover:text-white">
-              Category
-            </NavLink>
+          <li>
+            <Dropdown label="a" className="text-black">
+              <Dropdown.Item>
+                <Link
+                  to={"/categories"}
+                  className="block px-4 py-2 text-gray-300 hover:text-white"
+                >
+                  All Categories
+                </Link>
+              </Dropdown.Item>
+              {categories?.map((c) => (
+                <Dropdown.Item key={c._id}>
+                  <Link
+                    to={`/category/${c.slug}`}
+                    className="block px-4 py-2 text-gray-300 hover:text-white"
+                  >
+                    {c.name}
+                  </Link>
+                </Dropdown.Item>
+              ))}
+            </Dropdown>
           </li>
-          <li className="nav-item">
-            <NavLink to="/register" className="text-gray-300 hover:text-white">
-              Register
-            </NavLink>
-          </li>
-          <li className="nav-item">
-            <NavLink to="/login" className="text-gray-300 hover:text-white">
-              Login
-            </NavLink>
-          </li>
-          <li className="nav-item">
+
+          {!auth.user ? (
+            <>
+              <li>
+                <NavLink
+                  to="/register"
+                  className="text-gray-800 font-semibold hover:text-blue-600"
+                  onClick={toggleMobileMenu}
+                >
+                  Register
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/login"
+                  className="text-gray-800 font-semibold hover:text-blue-600"
+                  onClick={toggleMobileMenu}
+                >
+                  Login
+                </NavLink>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <NavLink
+                  to={`/dashboard/${auth?.user?.role === 1 ? "admin" : "user"}`}
+                  className="text-gray-800 font-semibold hover:text-blue-600"
+                  onClick={toggleMobileMenu}
+                >
+                  Dashboard
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  onClick={() => {
+                    handleLogout();
+                    toggleMobileMenu();
+                  }}
+                  to="/login"
+                  className="text-gray-800 font-semibold hover:text-blue-600"
+                >
+                  Logout
+                </NavLink>
+              </li>
+            </>
+          )}
+          <li>
             <NavLink
               to="/cart"
-              className="text-gray-300 hover:text-white flex items-center"
+              className="flex items-center text-gray-800 font-semibold hover:text-blue-600"
+              onClick={toggleMobileMenu}
             >
-              <GiShoppingBag className="mr-1" /> Cart {cart.length}
+              <GiShoppingBag className="mr-2" /> Cart {cart.length}
             </NavLink>
           </li>
         </ul>
@@ -198,4 +269,5 @@ const Header = () => {
     </nav>
   );
 };
+
 export default Header;

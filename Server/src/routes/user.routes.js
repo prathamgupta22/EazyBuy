@@ -10,6 +10,15 @@ import {
   updateProfileController,
 } from "../controllers/user.controller.js";
 import { isAdmin, requireSignIn } from "../middlewares/user.middleware.js";
+import { rateLimit } from "express-rate-limit";
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+  standardHeaders: "draft-7", // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+  // store: ... , // Redis, Memcached, etc. See below.
+});
 
 //router object
 const router = express.Router();
@@ -17,10 +26,10 @@ const router = express.Router();
 //routing
 
 // Register Route - POST /api/v1/user/register
-router.post("/register", registerController);
+router.post("/register", limiter, registerController);
 
 //LOGIN ROUTE || POST
-router.post("/login", loginController);
+router.post("/login", limiter, loginController);
 
 //FORGOT PASSWORD || POST
 router.post("/forgot-password", forgotPasswordController);

@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import cors from "cors";
+import helmet from "helmet";
+import mongoSanitize from "express-mongo-sanitize";
 
 // rest object
 const app = express();
@@ -10,6 +12,8 @@ const app = express();
 dotenv.config();
 
 //middleware
+app.use(helmet());
+app.use(mongoSanitize());
 app.use(
   cors({
     credentials: true,

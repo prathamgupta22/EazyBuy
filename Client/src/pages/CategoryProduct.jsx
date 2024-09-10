@@ -25,7 +25,7 @@ const CategoryProduct = () => {
     }
   };
   return (
-    <Layout title="Porduct Category">
+    <Layout>
       <div className="container mt-3">
         <h4 className="text-center">Category - {category?.name}</h4>
         <h6 className="text-center">{products?.length} result found</h6>
@@ -50,29 +50,29 @@ const CategoryProduct = () => {
                   <button
                     onClick={() => navigate(`/product/${p.slug}`)}
                     style={{
-                      backgroundColor: "#007bff", // Bootstrap Primary Blue
+                      backgroundColor: "#007bff",
                       color: "white",
                       padding: "8px 16px",
                       borderRadius: "4px",
                       textAlign: "center",
-                      width: "46%", // Adjust the width to fit side by side with a small gap
-                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)", // Add a subtle shadow for depth
-                      marginRight: "4%", // Small margin between the buttons
-                      display: "inline-block", // Ensure buttons are inline
+                      width: "46%",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                      marginRight: "4%",
+                      display: "inline-block",
                     }}
                   >
                     More Details
                   </button>
                   <button
                     style={{
-                      backgroundColor: "#6c757d", // Bootstrap Secondary Gray
+                      backgroundColor: "#6c757d",
                       color: "white",
                       padding: "8px 16px",
                       borderRadius: "4px",
                       textAlign: "center",
-                      width: "46%", // Adjust the width to fit side by side with a small gap
-                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)", // Add a subtle shadow for depth
-                      display: "inline-block", // Ensure buttons are inline
+                      width: "46%",
+                      boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                      display: "inline-block",
                     }}
                   >
                     ADD TO CART

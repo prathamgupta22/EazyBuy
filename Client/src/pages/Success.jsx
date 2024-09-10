@@ -9,14 +9,11 @@ const Success = () => {
   useEffect(() => {
     const createOrder = async () => {
       try {
-        // Replace with the correct data if necessary
-        await axios.post("/api/v1/order/create", {
-          /* Order details if needed */
-        });
-        navigate("/orders"); // Redirect to orders page or another relevant page
+        await axios.post("/api/v1/order/create", {});
+        navigate("/orders");
       } catch (error) {
         console.error("Order creation error:", error.message);
-        navigate("/"); // Redirect to home or show an error page
+        navigate("/");
       }
     };
 
