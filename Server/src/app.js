@@ -23,6 +23,16 @@ app.use(
 app.use(express.json()); // Enable JSON parsing
 app.use(morgan("dev")); // HTTP request logging
 
+// Serve static files for product photos with CORS headers
+app.use(
+  "/api/v1/product/product-photo",
+  express.static("path/to/images", {
+    setHeaders: (res) => {
+      res.set("Access-Control-Allow-Origin", "http://localhost:5173"); // Adjust origin as needed
+    },
+  })
+);
+
 // Basic route
 app.get("/", (req, res) => {
   res.send({

@@ -155,6 +155,7 @@ const HomePage = () => {
                   className="w-full h-48 object-contain hover:scale-105 transition-all ease-in-out"
                   alt={p.name}
                 />
+
                 <div className="p-4">
                   <h5 className="font-bold text-xl mb-2 text-gray-800">
                     {p.name}
