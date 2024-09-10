@@ -8,7 +8,7 @@ import {
   productCountController,
   productFiltersController,
   productListController,
-  productPhotoController,
+  // productPhotoController,
   relatedProductController,
   searchProductController,
   updateProductController,
